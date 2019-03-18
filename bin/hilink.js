@@ -829,4 +829,4 @@ var hilink = function(){
 
 }
 
-module.exports =  new hilink();
+module.exports = hilink;

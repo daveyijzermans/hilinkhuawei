@@ -1,15 +1,15 @@
 ![Logo](api/hilink.png)
 
-Клиент для Huawei модемов с прошивками HiLink  
+Client for Huawei modems with HiLink firmware
 
-Проверенно на модемах:         
-E3372h-153_Update_22.323.01.00.143_M_AT_05.10      
-E3372s Update_22.286.53.01.161_S_ADB_TLN_03    
+Proven on modems:
+E3372h-153_Update_22.323.01.00.143_M_AT_05.10
+E3372s Update_22.286.53.01.161_S_ADB_TLN_03
    
-Прошивки и другую информацию можно найти тут - http://4pda.ru/forum/index.php?showtopic=582284&    
+Firmware and other information can be found here - http://w3bsit3-dns.com.ru/forum/index.php?showtopic=582284&
    
 
-* Установка   
+* Installation
    
 $ npm install hilinkhuawei   
    
@@ -18,8 +18,8 @@ $ npm install hilinkhuawei
     
 Github: https://github.com/bondrogeen/hilinkhuawei    
 
-* Совместимость
-E3372 (МТС 827F/829F, МегаФон M150-2, Билайн E3372/E3370, TELE2 E3372р-153   
+* Compatibility
+E3372 (MTS 827F / 829F, MegaFon M150-2, Beeline E3372 / E3370, TELE2 E3372p-153
 
 
 	  
@@ -27,81 +27,81 @@ E3372 (МТС 827F/829F, МегаФон M150-2, Билайн E3372/E3370, TELE2 
 
 	var hilink = require('hilinkhuawei');   
 	
-* Изменить IP адрес (default 192.168.8.1)   
+* Change IP Address (default 192.168.8.1)
 
 	hilink.setIp('192.168.8.x')   
 	
-* Изменить отображение статистики трафика  (default - 'auto')   
+* Change the display of traffic statistics (default - 'auto')
     
-    'auto' - автоматическое отображение в B, KB, MB, GB, TB и времени в 00:00:10    
-    'def'  - по умолчанию трафик в битах, время в сек.   
+    'auto' - automatic display in B, KB, MB, GB, TB and time at 00:00:10
+    'def' - default traffic in bits, time in seconds.
       
     hilink.setTrafficInfo('def')   
     
-* Изменить версии модема   (default - '3372s')     
+* Change modem version (default - '3372s')
 
-    Прошивки hilink разной версии имеют разную аутентификацию:  
-    '3372s' - по token  
-    '3372h' - по token и cookie  
+    Different versions of hilink firmware have different authentication:
+    '3372s' - by token
+    '3372h' - by token and cookie
     
     hilink.setModel('3372s')   
 
-* Отправка ussd ( *100#, callback )   
+* Sending ussd (*100#, callback)
    
     hilink.ussd( '*100#', function( response ){  
         console.log(JSON.stringify(response) );  
     });   
 
-* Ответ: *   
+* Answer: *
 
 	{"response":{   
-	"content":["Баланс:88,19р,Лимит:0,01р "],   
+    "content": ["Balance: 88,19r, Limit: 0,01r"],
 	"response":"OK"	}   
 	}   
 
  
-* Отправка SMS ( number, text, callback )   
+* Sending SMS (number, text, callback)
   
 	hilink.send( '12345678', 'Hello world', function( response ){   
 		console.log( JSON.stringify( response, null, 2 ) );  
 	});   
 	
-* Ответ: *  
+* Answer: *
   
 	{ response: 'OK' }  
 	
-* Отправка без сохранения  SMS ( number, text, callback )  
+* Send without saving SMS (number, text, callback)
 
 	hilink.sendAndDelete( '12345678', 'Hello world', function( sendResponse, deleteResponse ){  
 		console.log( JSON.stringify(sendResponse) );  
 		console.log( JSON.stringify(deleteResponse) );  
 	});
 	
-* Ответ: *    
+* Answer: *
 
 	{ response: 'OK' }  
 	{ response: 'OK' }  
 
-* Подключиться к сети ('connect',callback)   
-* Отключиться от сети ('disconnect',callback)   
-* Перезагрузка модема ('reboot',callback)   
+* Connect to the network ('connect', callback)
+* Disconnect from the network ('disconnect', callback)
+* Modem reboot ('reboot', callback)
 
-hilink.control('conect',function(response ){   
     console.log( JSON.stringify( response, null, 2 ) );   
+hilink.control ('connect', function (response) {
 });
 
-* Ответ: *  
+* Answer: *
 
 {  response: 'OK'  }  
 
 
-* Список исходящих сообщений (callback)   
+* List of outgoing messages (callback)
 
 	hilink.listOutbox(function( response ){   
  		console.log( JSON.stringify( response, null, 2 ) );  
 	});  
 	
-* Ответ: *   
+* Answer: *
 
    {  
      "response": [   
@@ -132,13 +132,13 @@ hilink.control('conect',function(response ){
    }
 
     
-* Список входящих сообщений (callback)   
+* List of incoming messages (callback)
   
 	hilink.listInbox(function( response ){   
  		console.log( JSON.stringify( response, null, 2 ) );   
 	});   
 	 
-* Ответ: *   
+* Answer: *
 
 {  
   "response": [  
@@ -170,14 +170,14 @@ hilink.control('conect',function(response ){
     
  
     
-Список только новых входящих сообщений (callback)      
+List of new incoming messages only (callback)
     
     hilink.listNew(function(response ){   
         console.log( JSON.stringify( response, null, 2 ) );  
     });   
 
 
-* Ответ: *      
+* Answer: *
     
 {  
   "response": [  
@@ -218,23 +218,23 @@ hilink.control('conect',function(response ){
   "Count": 3
 }
     
-* Пометить как прочитаное сообщение   (index,callback)  
+* Mark as read message (index, callback)
     
     hilink.setRead('40001',function(response ){  
         console.log( JSON.stringify( response, null, 2 ) );  
     });  
     
-* Ответ: *  
+* Answer: *
  
  {  response: 'OK'  }  
  
-* Пометить все сообщения как прочитаные  
+* Mark all posts as read
 
     hilink.readAll(function(response ){  
         console.log( JSON.stringify( response, null, 2 ) );  
     });
  
-* Ответ: *   
+* Answer: *
   
 {  
   "response": [  
@@ -246,32 +246,32 @@ hilink.control('conect',function(response ){
 }   
    
     
-* Очистка входящих сообщений  
+* Clearing incoming messages
 
 	hilink.clearInbox();  
 	  
-* Очистка исходящих сообщений    
+* Cleaning outgoing messages
 
 	hilink.clearOutbox();    
   
-* Удаление сообщения по индексу    
+* Delete message by index
 
     hilink.delete( '40007', function( response ){    
         console.log(JSON.stringify(response) );    
     });   
 
-* Ответ: *  
+* Answer: *
 
 {  response: 'OK'  }   
   
 
-* Статус (callback)   
+* Status (callback)
   
 	hilink.status(function( response ){   
         console.log( JSON.stringify( response, null, 2 ) );   
     });       
    
-* Ответ: *    
+* Answer: *
      
 	{   
       "response": {   
@@ -298,13 +298,13 @@ hilink.control('conect',function(response ){
 
 
 
-* Уведомление (callback)    
+* Notification (callback)
     
     	hilink.notifications(function( response ){   
             console.log( JSON.stringify( response, null, 2 ) );    
         });      
     
-* Ответ: *    
+* Answer: *
    
 {     
   "response": {     
@@ -314,13 +314,13 @@ hilink.control('conect',function(response ){
   }     
 }    
 
-* Статус оператора сети (callback)    
+* Network operator status (callback)
 
     	hilink.statusNet(function( response ){    
             console.log( JSON.stringify( response, null, 2 ) );   
         });   
 
-* Ответ: *    
+* Answer: *
 
 {   
   "response": {   
@@ -332,13 +332,13 @@ hilink.control('conect',function(response ){
   }   
 }   
 
-* Состояние о кол. смс (callback)   
+* Condition about count. SMS (callback)
 
     	hilink.smsCount(function( response ){   
             console.log( JSON.stringify( response, null, 2 ) );   
         });   
 
-* Ответ: *   
+* Answer: *
    
 {   
   "response": {    
@@ -358,13 +358,13 @@ hilink.control('conect',function(response ){
   }   
 }   
    
-* Уровень сигнала (callback)   
+* Signal level (callback)
   
     	hilink.signal(function( response ){   
             console.log( JSON.stringify( response, null, 2 ) );   
         });   
 
-* Ответ: *   
+* Answer: *
 
 {   
   "response": {    
@@ -378,13 +378,13 @@ hilink.control('conect',function(response ){
   }   
 }   
    
-* Адреса  (callback)   
+* Addresses (callback)
 
     	hilink.settingsNet(function( response ){    
             console.log( JSON.stringify( response, null, 2 ) );    
         });   
 
-* Ответ: *   
+* Answer: *
 
 {  
   "response": {   
@@ -400,13 +400,13 @@ hilink.control('conect',function(response ){
   }   
 }   
 
-* Информация о модеме (callback)   
+* Information about the modem (callback)
 
     	hilink.basicInfo(function( response ){
             console.log( JSON.stringify( response, null, 2 ) );
         });
 
-* Ответ: *    
+* Answer: *
 
 {   
   "response": {    
@@ -416,13 +416,13 @@ hilink.control('conect',function(response ){
   }   
 }   
 
-* Статистика трафика (callback)
+* Traffic statistics (callback)
 
     	hilink.traffic(function( response ){
             console.log( JSON.stringify( response, null, 2 ) );
         });
 
-* Ответ: *
+* Answer: *
 
 {
   "response": {
@@ -438,7 +438,7 @@ hilink.control('conect',function(response ){
   }
 }
 
-* Статистика трафика за месяц (callback)   
+* Traffic statistics for the month (callback)
 
 
     	hilink.trafficMonth (function( response ) {
@@ -446,7 +446,7 @@ hilink.control('conect',function(response ){
         });
 
 
-* Ответ: *
+* Answer: *
 
 {
   "response": {
@@ -466,30 +466,30 @@ fix ussd
      
    2.1.1   
    
-Добавил 3372H   
+Added 3372H
    
    2.0.0    
    
-Изменил ответ    
+Changed the answer
    
    1.1.1    
    
-Добавил новые функции    
+Added new features
    
    1.0.0    
    
-Изменения запросов пакету     
+Package Request Changes
    
    0.2.1    
    
-Добавил  статистику трафика за месяц, изменил отображение статистики трафика, статус подключения и отображения типа сети. 
-Добавил ответ от оператора от USSD запроса. 
-Удаление по индексу сообщения.
+Added traffic statistics for the month, changed the display of traffic statistics, connection status and network type display.
+Added response from the operator from the USSD request.
+Delete by post index.
 			
 			
    0.1.2 
    
-   Добавил ussd команды
+   Added ussd commands
    
    0.1.1 
 

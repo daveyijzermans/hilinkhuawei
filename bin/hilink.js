@@ -9,7 +9,7 @@ var hilink = function(){
 // port
     self.port = 80;
 
-//ip def.
+//ip default
     self.ip = '192.168.8.1';
 
 //ip def.
@@ -27,7 +27,7 @@ var hilink = function(){
         self.trafficInfo = TrafficInfo;
     };
 
-//изменения ip
+//set ip
     self.setIp = function( ip ){
         self.ip = ip;
     }
@@ -113,13 +113,15 @@ var hilink = function(){
     }
 
 
-// Получаем token
+// retrieve token
 
-    self.request = function( path, xml, callback ){      // post запросы модему
+    self.request = function( path, xml, callback ){      // post request to the modem
 
         if(self.model === "3372h"){
 
             cookie(function( date ){
+                if(!date || !date.cookie || !date.one) return callback(false);
+
                 self.token = "11111";
                 //console.log(date);
                 var postRequest = {
@@ -439,12 +441,13 @@ var hilink = function(){
         });
     }
 
-// get запросы модему
+// get modem request
     self.info = function(val, callback) {
 
         if(self.model === "3372h"){
 
             cookie(function( data ){
+                if(!data || !data.cookie) return callback(false);
                 var options = {
                     hostname: self.ip,
                     port: 80,
@@ -547,7 +550,7 @@ var hilink = function(){
     };
 
 
-// информация общая о модеме
+// retrieve modem information
 
     self.status = function(callback){
         self.info ('/api/monitoring/status',function( response ){
@@ -562,42 +565,42 @@ var hilink = function(){
 
     }
 
-// информация о уведомлениях  сети
+// retrieve network notifications
     self.notifications = function(callback){
         self.info( '/api/monitoring/check-notifications',function( response ){
             callback(filter (response));
         });
     }
 
-// информация о операторе сети
+// retrieve network operator information
     self.statusNet = function(callback){
         self.info( '/api/net/current-plmn',function( response ){
             callback(filter (response));
         });
     }
 
-// информация кол. сообщений
+// retrieve no. of text messages
     self.smsCount = function(callback){
         self.info( '/api/sms/sms-count',function( response ){
             callback(filter (response));
         });
     }
 
-// информация о сигнале сети
+// retrieve signal information
     self.signal = function(callback){
         self.info( '/api/device/signal',function( response ){
             callback(filter (response));
         });
     }
 
-// информация о ip сети
+// retrieve dhcp/ip information
     self.settingsNet = function(callback){
         self.info( '/api/dhcp/settings',function( response ){
             callback(filter (response));
         });
     }
 
-// информация о модеме
+// retrieve modem information
     self.basicInfo = function(callback){
         self.info( '/api/device/basic_information',function( response ){
             callback(filter (response));
@@ -605,7 +608,7 @@ var hilink = function(){
     }
 
 
-// статистика
+// helpers
 
     function formatFloat(src, pos) {
         return Math.round(src * Math.pow(10, pos)) / Math.pow(10, pos);
@@ -687,7 +690,7 @@ var hilink = function(){
         return final_time;
     };
 
-// Статистика трафика за месяц
+// retrieve monthly traffic usage stats
 
     self.trafficMonth = function(callback){
         self.info( '/api/monitoring/month_statistics',function( response ){
@@ -703,7 +706,7 @@ var hilink = function(){
         });
     }
 
-// Статистика трафика модема
+// retrieve traffic usage stats
     self.traffic = function(callback){
         self.info( '/api/monitoring/traffic-statistics',function( response ){
 
@@ -728,7 +731,7 @@ var hilink = function(){
 
     self.control  = function(value,callback){
 
-        // перезугрузка модема
+        // reboot the modem
         if (value == 'reboot'){
             var xml = builder.create({
                 request: {
@@ -742,7 +745,7 @@ var hilink = function(){
                 callback( response );
             });
 
-            // вкл. и откл. от мобильной сети.
+            // reconnect to the mobile network
         }else if (value=='connect'){
             var xml = builder.create({
                 request: {
@@ -777,7 +780,7 @@ var hilink = function(){
 
     }
 
-// запрос USSD
+// request via USSD
 
     self.ussd = function( number, callback ){
         var xml = builder.create({

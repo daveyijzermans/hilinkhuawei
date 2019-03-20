@@ -232,7 +232,7 @@ var hilink = function(){
         }).end({ pretty: true});
 
         self.request( '/api/sms/send-sms', xml, function( response ){
-            callback( response );
+            if(response) callback( response );
         });
 
     };
@@ -248,7 +248,7 @@ var hilink = function(){
         }).end({ pretty: true});
 
         self.request( '/api/sms/set-read', xml, function( response ){
-            callback( response );
+            if(response) callback( response );
         });
     };
 
@@ -302,7 +302,7 @@ var hilink = function(){
         }).end({ pretty: true});
 
         self.request( '/api/sms/sms-list', xml, function( response ){
-            callback( response );
+            if(response) callback( response );
         });
     }
 
@@ -334,7 +334,7 @@ var hilink = function(){
         }).end({ pretty: true});
 
         self.request( '/api/sms/sms-list', xml, function( response ){
-            callback( response );
+            if(response) callback( response );
         });
     }
 
@@ -397,7 +397,7 @@ var hilink = function(){
         }).end({ pretty: true});
 
         self.request( '/api/sms/delete-sms', xml, function( response ){
-            callback( response );
+            if(response) callback( response );
         });
     }
 
@@ -568,42 +568,42 @@ var hilink = function(){
 // retrieve network notifications
     self.notifications = function(callback){
         self.info( '/api/monitoring/check-notifications',function( response ){
-            callback(filter (response));
+            if(response) callback(filter (response));
         });
     }
 
 // retrieve network operator information
     self.statusNet = function(callback){
         self.info( '/api/net/current-plmn',function( response ){
-            callback(filter (response));
+            if(response) callback(filter (response));
         });
     }
 
 // retrieve no. of text messages
     self.smsCount = function(callback){
         self.info( '/api/sms/sms-count',function( response ){
-            callback(filter (response));
+            if(response) callback(filter (response));
         });
     }
 
 // retrieve signal information
     self.signal = function(callback){
         self.info( '/api/device/signal',function( response ){
-            callback(filter (response));
+            if(response) callback(filter (response));
         });
     }
 
 // retrieve dhcp/ip information
     self.settingsNet = function(callback){
         self.info( '/api/dhcp/settings',function( response ){
-            callback(filter (response));
+            if(response) callback(filter (response));
         });
     }
 
 // retrieve modem information
     self.basicInfo = function(callback){
         self.info( '/api/device/basic_information',function( response ){
-            callback(filter (response));
+            if(response) callback(filter (response));
         });
     }
 
@@ -694,7 +694,7 @@ var hilink = function(){
 
     self.trafficMonth = function(callback){
         self.info( '/api/monitoring/month_statistics',function( response ){
-
+            if(!response) return;
             if (self.trafficInfo== 'auto') {
                 response.response.MonthDuration[0] = getCurrentTime(response.response.MonthDuration[0]);
                 response.response.CurrentMonthDownload[0] = getTrafficInfo(response.response.CurrentMonthDownload[0]);
@@ -709,7 +709,7 @@ var hilink = function(){
 // retrieve traffic usage stats
     self.traffic = function(callback){
         self.info( '/api/monitoring/traffic-statistics',function( response ){
-
+            if(!response) return;
             if (self.trafficInfo== 'auto') {
                 response.response.CurrentConnectTime[0] = getCurrentTime(response.response.CurrentConnectTime[0]);
                 response.response.TotalConnectTime[0] = getCurrentTime(response.response.TotalConnectTime[0]);
@@ -742,7 +742,7 @@ var hilink = function(){
             }).end({ pretty: true});
 
             self.request( '/api/device/control', xml, function( response ){
-                callback( response );
+                if(response) callback( response );
             });
 
             // reconnect to the mobile network
@@ -756,7 +756,7 @@ var hilink = function(){
             }).end({ pretty: true});
 
             self.request( '/api/dialup/dial', xml, function( response ){
-                callback( response );
+                if(response) callback( response );
             });
 
         }else if (value=='disconnect'){
@@ -769,7 +769,7 @@ var hilink = function(){
             }).end({ pretty: true});
 
             self.request( '/api/dialup/dial', xml, function( response ){
-                callback( response );
+                if(response) callback( response );
             });
         }else {
             callback( response = {"response":"ERROR"});
@@ -797,12 +797,14 @@ var hilink = function(){
         }).end({ pretty: true});
 
         self.request( '/api/ussd/send', xml, function( response ){
-            console.log(response)
+            // console.log(response)
             var wait_time = 0;
+            if (!response) return;
             if (response.response == 'OK') {
                 function func() {
                     self.info('/api/ussd/get', function (response) {
-                        console.log(response)
+                        // console.log(response)
+                        if(!response) return;
                         if(response.error){
                             if(wait_time>30){
                                 callback(filter (response));

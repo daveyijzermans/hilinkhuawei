@@ -554,6 +554,7 @@ var hilink = function(){
 
     self.status = function(callback){
         self.info ('/api/monitoring/status',function( response ){
+            if (!response) return;
             self.jsonNet[response.response.CurrentNetworkType[0]] = self.jsonNet[response.response.CurrentNetworkType[0]] || response.response.CurrentNetworkType[0]
             response.response.CurrentNetworkType[0] = self.jsonNet[response.response.CurrentNetworkType[0]]
             self.jsonNetStatsu[response.response.ConnectionStatus[0]] = self.jsonNetStatsu[response.response.ConnectionStatus[0]] || response.response.ConnectionStatus[0]
